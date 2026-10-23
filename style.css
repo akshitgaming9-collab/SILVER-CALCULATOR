@@ -1,0 +1,42 @@
+body {
+    background-color: darkred;
+    display: flex; justify-content: center; align-items: center; height: 100vh;
+}
+main{
+    padding: 20px;
+    border-radius: 15px;
+    width: 320px;
+    background-color:rgb(211, 2, 2);
+}
+.DISPLAY {
+    background-color: maroon;
+color: #ffffff;
+padding: 15px;
+text-align: right;
+font-size: 32px;
+}
+  
+.butt{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+button {
+    width:  100%;
+      padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    background-color: #eeeced ;
+}
+button:hover {
+background-color: rgb(19, 0, 0);
+cursor: pointer;
+color: #fb0505;
+box-shadow:
+    0 0 5px #ff0000,
+    0 0 15px #ff0000,
+    0 0 30px #ff0000,
+    inset 0 0 10px #ff3333,
+    inset 0 0 20px #ff0000;
+}
