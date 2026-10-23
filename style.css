@@ -39,4 +39,23 @@ box-shadow:
     0 0 30px #ff0000,
     inset 0 0 10px #ff3333,
     inset 0 0 20px #ff0000;
+    transition: transform 0.2s ease;
+    
+}
+button:active {
+    transform: scale(1.15);
+}
+button {
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+button.selected {
+    transform: scale(1.15);
+    position: relative;
+    z-index: 1;
+}
+
+button.shrunk {
+    transform: scale(0.9);
+    opacity: 0.65;
 }
