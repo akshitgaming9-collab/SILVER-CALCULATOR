@@ -96,3 +96,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateDisplay();
 });
+
+const calculator = document.querySelector("main");
+
+calculator.addEventListener("mousemove", function (event) {
+    const rect = calculator.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    calculator.style.setProperty("--mouse-x", `${x}px`);
+    calculator.style.setProperty("--mouse-y", `${y}px`);
+
+    // Bend the calculator toward the cursor
+    const rotateY = ((x / rect.width) - 0.5) * 8;
+    const rotateX = (0.5 - (y / rect.height)) * 8;
+
+    calculator.style.transform =
+        `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+    calculator.classList.add("glowing");
+});
+
+calculator.addEventListener("mouseleave", function () {
+    calculator.style.transform = "";
+    calculator.classList.remove("glowing");
+});
