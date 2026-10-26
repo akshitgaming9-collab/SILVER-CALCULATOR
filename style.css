@@ -55,7 +55,8 @@ button.selected {
     z-index: 1;
 }
 
+
 button.shrunk {
     transform: scale(0.9);
-    opacity: 0.65;
+    opacity: 1;
 }
