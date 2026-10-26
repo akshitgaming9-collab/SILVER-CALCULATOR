@@ -1,80 +1,134 @@
 ```javascript
-const display = document.querySelector(".DISPLAY");
-const buttons = document.querySelectorAll(".buttons button");
+document.addEventListener("DOMContentLoaded", function () {
+    const display = document.querySelector(".DISPLAY");
+    const buttons = document.querySelectorAll(".buttons button");
 
-let currentInput = "0";
-let previousInput = null;
-let operator = null;
-let shouldResetDisplay = false;
-
-// Update calculator display
-function updateDisplay() {
-    display.textContent = currentInput;
-}
-
-// Calculate result
-function calculate() {
-    if (previousInput === null || operator === null) {
+    if (!display || buttons.length === 0) {
+        console.error("Calculator elements not found!");
         return;
     }
 
-    const first = Number(previousInput);
-    const second = Number(currentInput);
-    let result;
+    let current = "0";
+    let previous = null;
+    let operator = null;
+    let reset = false;
 
-    switch (operator) {
-        case "+":
-            result = first + second;
-            break;
+    function update() {
+        display.textContent = current;
+    }
 
-        case "−":
-            result = first - second;
-            break;
+    function calculate() {
+        if (previous === null || operator === null) return;
 
-        case "×":
-            result = first * second;
-            break;
+        const a = Number(previous);
+        const b = Number(current);
+        let result;
 
-        case "÷":
-            if (second === 0) {
-                currentInput = "Error";
-                previousInput = null;
+        switch (operator) {
+            case "+": result = a + b; break;
+            case "−": result = a - b; break;
+            case "×": result = a * b; break;
+            case "÷":
+                if (b === 0) {
+                    current = "Error";
+                    previous = null;
+                    operator = null;
+                    reset = true;
+                    update();
+                    return;
+                }
+                result = a / b;
+                break;
+        }
+
+        current = Number.isFinite(result)
+            ? String(Number(result.toPrecision(12)))
+            : "Error";
+
+        previous = null;
+        operator = null;
+        reset = true;
+        update();
+    }
+
+    buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const value = button.textContent.trim();
+
+            // Button animation
+            buttons.forEach(function (other) {
+                other.classList.remove("selected", "shrunk");
+                if (other !== button) other.classList.add("shrunk");
+            });
+            button.classList.add("selected");
+
+            if (value === "AC") {
+                current = "0";
+                previous = null;
                 operator = null;
-                shouldResetDisplay = true;
-                updateDisplay();
+                reset = false;
+                update();
                 return;
             }
 
-            result = first / second;
-            break;
+            if (value === "DEL") {
+                if (reset || current === "Error") {
+                    current = "0";
+                    reset = false;
+                } else {
+                    current = current.slice(0, -1) || "0";
+                    if (current === "-") current = "0";
+                }
+                update();
+                return;
+            }
 
-        default:
-            return;
-    }
+            if (value === "%") {
+                if (current !== "Error") {
+                    current = String(Number(current) / 100);
+                    update();
+                }
+                return;
+            }
 
-    currentInput = Number.isFinite(result)
-        ? String(Number(result.toPrecision(12)))
-        : "Error";
+            if (value === ".") {
+                if (reset || current === "Error") {
+                    current = "0";
+                    reset = false;
+                }
+                if (!current.includes(".")) current += ".";
+                update();
+                return;
+            }
 
-    previousInput = null;
-    operator = null;
-    shouldResetDisplay = true;
+            if (["+", "−", "×", "÷"].includes(value)) {
+                if (current === "Error") return;
+                if (operator !== null && !reset) calculate();
 
-    updateDisplay();
-}
+                previous = current;
+                operator = value;
+                reset = true;
+                return;
+            }
 
-// Handle button animations
-function animateButton(selectedButton) {
-    buttons.forEach(function (button) {
-        button.classList.remove("selected", "shrunk");
+            if (value === "=") {
+                calculate();
+                return;
+            }
 
-        if (button !== selectedButton) {
-            button.classList.add("shrunk");
-        }
+            if (/^\d+$/.test(value)) {
+                if (reset || current === "0" || current === "Error") {
+                    current = value;
+                    reset = false;
+                } else {
+                    current += value;
+                }
+                update();
+            }
+        });
     });
 
-    selectedButton.classList.add("selected");
-}
-
-// Handle calculator buttons
-buttons.forEach(function (
+    update();
+    console.log("Calculator ready:", buttons.length, "buttons");
+});
+```
