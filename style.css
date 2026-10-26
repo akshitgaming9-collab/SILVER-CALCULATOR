@@ -60,3 +60,52 @@ button.shrunk {
     transform: scale(0.9);
     opacity: 1;
 }
+
+main {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease;
+}
+
+/* White light that follows your cursor */
+main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0.12) 15%,
+        transparent 45%
+    );
+    transition: opacity 0.25s ease;
+    z-index: 5;
+}
+
+/* Glowing white border */
+main::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(255, 255, 255, 0);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    pointer-events: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    z-index: 6;
+}
+
+main.glowing::before {
+    opacity: 1;
+}
+
+main.glowing::after {
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.7),
+        inset 0 0 8px rgba(255, 255, 255, 0.15);
+}
