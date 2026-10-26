@@ -1,4 +1,4 @@
-
+alert("JavaScript is connected!");
 const display = document.querySelector(".DISPLAY");
 const buttons = document.querySelectorAll(".buttons button");
 
