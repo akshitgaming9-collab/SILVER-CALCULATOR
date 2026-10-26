@@ -1,13 +1,15 @@
-alert("JavaScript is working!");
+console.log("NEW SCRIPT LOADED");
 
-const display = document.querySelector(".DISPLAY");
-const buttons = document.querySelectorAll(".buttons button");
+document.addEventListener("DOMContentLoaded", function () {
+    const display = document.querySelector(".DISPLAY");
+    const buttons = document.querySelectorAll(".buttons button");
 
-console.log("Display found:", display);
-console.log("Buttons found:", buttons.length);
+    console.log("Display found:", display);
+    console.log("Buttons found:", buttons.length);
 
-buttons.forEach(function(button) {
-    button.addEventListener("click", function() {
-        display.textContent = button.textContent;
+    buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            display.textContent = button.textContent;
+        });
     });
 });
