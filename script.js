@@ -7,10 +7,12 @@ let previousInput = null;
 let operator = null;
 let shouldResetDisplay = false;
 
+// Update the calculator display
 function updateDisplay() {
     display.textContent = currentInput;
 }
 
+// Perform the calculation
 function calculate() {
     if (previousInput === null || operator === null) {
         return;
@@ -38,13 +40,14 @@ function calculate() {
         case "÷":
         case "/":
             if (second === 0) {
-                currentInput = "Cannot divide by zero";
+                currentInput = "Error";
                 previousInput = null;
                 operator = null;
                 shouldResetDisplay = true;
                 updateDisplay();
                 return;
             }
+
             result = first / second;
             break;
 
@@ -65,11 +68,12 @@ function calculate() {
     updateDisplay();
 }
 
+// Listen for button clicks
 buttons.forEach(function(button) {
     button.addEventListener("click", function() {
         const value = button.textContent.trim();
 
-        // Keep the selected-button animation
+        // Selected button animation
         buttons.forEach(function(otherButton) {
             otherButton.classList.remove("selected", "shrunk");
         });
@@ -82,7 +86,7 @@ buttons.forEach(function(button) {
             }
         });
 
-        // Clear everything
+        // All clear
         if (value === "AC") {
             currentInput = "0";
             previousInput = null;
@@ -92,7 +96,7 @@ buttons.forEach(function(button) {
             return;
         }
 
-        // Delete the last digit
+        // Delete last character
         if (value === "DEL") {
             if (shouldResetDisplay) {
                 currentInput = "0";
@@ -133,7 +137,7 @@ buttons.forEach(function(button) {
             return;
         }
 
-        // Mathematical operators
+        // Operators
         if (["+", "−", "-", "×", "*", "÷", "/"].includes(value)) {
             if (operator !== null && !shouldResetDisplay) {
                 calculate();
@@ -165,4 +169,5 @@ buttons.forEach(function(button) {
     });
 });
 
+// Initial display
 updateDisplay();
